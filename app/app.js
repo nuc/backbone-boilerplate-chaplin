@@ -5,7 +5,6 @@ define(function(require, exports, module) {
   $ = require('jquery');
   Backbone = require('backbone');
   Chaplin = require('chaplin');
-  debugger;
   app = module.exports;
   app.root = "/";
   return this;
