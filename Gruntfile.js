@@ -71,6 +71,37 @@ module.exports = function(grunt) {
       }
     },
 
+    sass: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: 'src/styles',
+            src: ['**/*.sass'],
+            dest: 'app/styles/',
+            ext: '.css'
+          }
+        ]
+      }
+    },
+
+    coffee : {
+      options: {
+        bare: true
+      },
+      compile: {
+        files: [
+          {
+            expand: true,
+            cwd: 'src/',
+            src: ['**/*.coffee'],
+            dest: 'app/',
+            ext: '.js'
+          }
+        ]
+      }
+    },
+
     server: {
       options: {
         host: "0.0.0.0",
@@ -198,6 +229,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-cssmin");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-compress");
+  grunt.loadNpmTasks("grunt-contrib-coffee");
+  grunt.loadNpmTasks("grunt-contrib-sass");
+  grunt.loadNpmTasks("grunt-contrib-watch");
 
   // Third-party tasks.
   grunt.loadNpmTasks("grunt-karma");
