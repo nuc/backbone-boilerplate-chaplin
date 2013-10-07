@@ -271,6 +271,8 @@ module.exports = function(grunt) {
 
   // When running the default Grunt command, just lint the code.
   grunt.registerTask("default", [
+    "sass",
+    "coffee",
     "clean",
     "jshint",
     "processhtml",
