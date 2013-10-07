@@ -12,3 +12,4 @@ define (require, exports, module) ->
     index: ->
       console.log "Welcome to your / route."
 
+  @

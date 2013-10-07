@@ -1,9 +1,12 @@
 define(function(require, exports, module) {
   'use strict';
-  var $, Backbone, app, _;
+  var $, Backbone, Chaplin, app, _;
   _ = require('underscore');
   $ = require('jquery');
   Backbone = require('backbone');
+  Chaplin = require('chaplin');
+  debugger;
   app = module.exports;
-  return app.root = "/";
+  app.root = "/";
+  return this;
 });

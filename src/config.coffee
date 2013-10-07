@@ -2,7 +2,6 @@
 # supplementing shared properties.
 require.config
   paths:
-
     # Make vendor easier to access.
     vendor: "../vendor"
 
@@ -15,16 +14,16 @@ require.config
     # Map remaining vendor dependencies.
     jquery: "../vendor/bower/jquery/jquery"
     backbone: "../vendor/bower/backbone/backbone"
+    chaplin: "../vendor/bower/chaplin/chaplin"
 
   shim:
-
     # This is required to ensure Backbone works as expected within the AMD
     # environment.
     backbone:
-
       # These are the two hard dependencies that will be loaded first.
       deps: ["jquery", "underscore"]
-
       # This maps the global `Backbone` object to `require("backbone")`.
       exports: "Backbone"
-
+    chaplin:
+      deps: ["backbone"]
+      exports: "Chaplin"

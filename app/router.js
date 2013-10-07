@@ -2,7 +2,7 @@ define(function(require, exports, module) {
   "use strict";
   var Backbone;
   Backbone = require("backbone");
-  return module.exports = Backbone.Router.extend({
+  module.exports = Backbone.Router.extend({
     routes: {
       "": "index"
     },
@@ -10,4 +10,5 @@ define(function(require, exports, module) {
       return console.log("Welcome to your / route.");
     }
   });
+  return this;
 });

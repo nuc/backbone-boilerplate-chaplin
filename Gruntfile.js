@@ -152,6 +152,16 @@ module.exports = function(grunt) {
       }
     },
 
+    watch : {
+      preprocessors: {
+        files: [
+          'src/**/*.coffee',
+          'src/styles/**/*.sass'
+        ],
+        tasks: ['coffee', 'sass']
+      }
+    },
+
     // Unit testing is provided by Karma.  Change the two commented locations
     // below to either: mocha, jasmine, or qunit.
     karma: {
@@ -220,6 +230,15 @@ module.exports = function(grunt) {
       options: {
         coverage_dir: "test/coverage/PhantomJS 1.9.2 (Linux)/"
       }
+    },
+
+    concurrent: {
+      target: {
+          tasks: ['server', 'watch'],
+          options: {
+              logConcurrentOutput: true
+          }
+      }
     }
   });
 
@@ -245,6 +264,10 @@ module.exports = function(grunt) {
 
   // Create an aliased test task.
   grunt.registerTask("test", ["karma:run"]);
+
+  grunt.registerTask("dev", ['concurrent:target']);
+
+  grunt.loadNpmTasks("grunt-concurrent");
 
   // When running the default Grunt command, just lint the code.
   grunt.registerTask("default", [
