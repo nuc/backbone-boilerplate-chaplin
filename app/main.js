@@ -1,9 +1,11 @@
 require(["config"], function() {
-  return require(["app", "router"], function(app, Router) {
-    app.router = new Router();
-    return Backbone.history.start({
-      pushState: true,
-      root: app.root
+  return require(["application", "routes", "templates"], function(Application, routes) {
+    return $(function() {
+      return new Application({
+        controllerSuffix: '_controller',
+        pushState: true,
+        routes: routes
+      });
     });
   });
 });

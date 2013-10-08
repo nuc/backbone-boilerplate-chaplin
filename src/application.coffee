@@ -6,8 +6,7 @@ define (require, exports, module) ->
   Backbone = require('backbone')
   Chaplin = require('chaplin')
 
-  app = module.exports
+  # The application object.
+  module.exports = class Application extends Chaplin.Application
+    title: 'Chaplin boilerplate'
 
-  app.root = "/"
-
-  @

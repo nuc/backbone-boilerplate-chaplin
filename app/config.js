@@ -5,7 +5,8 @@ require.config({
     underscore: "../vendor/bower/lodash/dist/lodash.underscore",
     jquery: "../vendor/bower/jquery/jquery",
     backbone: "../vendor/bower/backbone/backbone",
-    chaplin: "../vendor/bower/chaplin/chaplin"
+    chaplin: "../vendor/bower/chaplin/chaplin",
+    handlebars: "../vendor/bower/handlebars/handlebars"
   },
   shim: {
     backbone: {
