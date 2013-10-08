@@ -2,17 +2,21 @@
 
 Chaplin Boilerplate
 ===================
-This is a fork of backbone-boilerplate with:
+This is a fork of backbone-boilerplate with the addition of:
 
 - Chaplin
 - Coffeescript
 - Sass
+- Handlebars
 
-You can run a dev server, with sass and coffee compilation with:
+You can run a dev server, with sass, handlebars and coffee compilation with:
 
 ``` bash
 grunt dev
 ```
+
+Inherited readme follows:
+
 Backbone Boilerplate
 ====================
 
