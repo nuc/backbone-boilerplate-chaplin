@@ -71,6 +71,17 @@ module.exports = function(grunt) {
       }
     },
 
+    handlebars: {
+      options: {
+        node: true
+      },
+      compile: {
+        files: {
+          'app/templates.js': 'src/templates/*.hbs'
+       }
+      }
+    },
+
     sass: {
       dist: {
         files: [
@@ -153,12 +164,23 @@ module.exports = function(grunt) {
     },
 
     watch : {
-      preprocessors: {
+      sass: {
         files: [
-          'src/**/*.coffee',
           'src/styles/**/*.sass'
         ],
-        tasks: ['coffee', 'sass']
+        tasks: ['sass']
+      },
+      coffee: {
+        files: [
+          'src/**/*.coffee'
+        ],
+        tasks: ['coffee']
+      },
+      handlebars: {
+        files: [
+          'src/templates/**/*.hbs'
+        ],
+        tasks: ['handlebars']
       }
     },
 
@@ -251,6 +273,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-coffee");
   grunt.loadNpmTasks("grunt-contrib-sass");
   grunt.loadNpmTasks("grunt-contrib-watch");
+  grunt.loadNpmTasks('grunt-contrib-handlebars');
 
   // Third-party tasks.
   grunt.loadNpmTasks("grunt-karma");
@@ -265,7 +288,7 @@ module.exports = function(grunt) {
   // Create an aliased test task.
   grunt.registerTask("test", ["karma:run"]);
 
-  grunt.registerTask("dev", ['concurrent:target']);
+  grunt.registerTask("dev", ['handlebars', 'sass', 'coffee', 'concurrent:target']);
 
   grunt.loadNpmTasks("grunt-concurrent");
 
@@ -274,7 +297,7 @@ module.exports = function(grunt) {
     "sass",
     "coffee",
     "clean",
-    "jshint",
+    //"jshint",
     "processhtml",
     "copy",
     "requirejs",

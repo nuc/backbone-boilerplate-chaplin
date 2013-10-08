@@ -1,6 +1,5 @@
 {
   "name": "backbone-boilerplate",
-
   "dependencies": {
     "html5-boilerplate": "~4.3.0",
     "almond": "~0.2.6",
@@ -13,6 +12,7 @@
     "mocha": "~1.13.0",
     "chai": "~1.8.0",
     "sinon": "~1.7.3",
-    "chaplin": "~0.11.1"
+    "chaplin": "~0.11.1",
+    "handlebars": "~1.0.0"
   }
 }

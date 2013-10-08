@@ -20,7 +20,8 @@
     "karma-qunit": "~0.1.0",
     "karma-phantomjs-launcher": "~0.1.0",
     "karma-coverage": "~0.1.0",
-    "grunt-concurrent": "~0.4.0"
+    "grunt-concurrent": "~0.4.0",
+    "grunt-contrib-handlebars": "~0.5.11"
   },
   "peerDependencies": {
     "generator-bbb": "*",

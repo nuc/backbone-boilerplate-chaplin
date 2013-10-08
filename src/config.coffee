@@ -15,6 +15,7 @@ require.config
     jquery: "../vendor/bower/jquery/jquery"
     backbone: "../vendor/bower/backbone/backbone"
     chaplin: "../vendor/bower/chaplin/chaplin"
+    handlebars: "../vendor/bower/handlebars/handlebars"
 
   shim:
     # This is required to ensure Backbone works as expected within the AMD
