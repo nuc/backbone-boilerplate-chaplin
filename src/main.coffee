@@ -3,7 +3,7 @@
 require ["config"], ->
 
   # Kick off the application.
-  require ["application", "routes", "templates"], (Application, routes) ->
+  require ["application", "routes", "handlebars", "templates"], (Application, routes) ->
 
     # Initialize the application on DOM ready event.
     $ ->

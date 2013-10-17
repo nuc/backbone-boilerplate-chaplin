@@ -28,3 +28,6 @@ require.config
     chaplin:
       deps: ["backbone"]
       exports: "Chaplin"
+    templates:
+      deps: ["handlebars"]
+
