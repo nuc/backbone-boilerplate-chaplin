@@ -8,3 +8,7 @@ define (require, exports, module) ->
     container: 'body'
     autoRender: true
 
+    attach: ->
+      super
+      debugger
+

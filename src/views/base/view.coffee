@@ -12,5 +12,5 @@ define (require, exports, module) ->
     getTemplateFunction: ->
       return unless @template
       templates = require('templates')
-      templates["src/#{@template}.hbs"]
+      templates.JST["src/#{@template}.hbs"]
 
