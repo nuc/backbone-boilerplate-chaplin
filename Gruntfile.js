@@ -72,9 +72,6 @@ module.exports = function(grunt) {
     },
 
     handlebars: {
-      options: {
-        node: true
-      },
       compile: {
         files: {
           'app/templates.js': 'src/templates/*.hbs'
@@ -145,6 +142,14 @@ module.exports = function(grunt) {
 
     // Move vendor and app logic during a build.
     copy: {
+      images: {
+        expand: true,
+        cwd: 'src/assets/images/',
+        src: '**',
+        dest: 'app/assets/images/',
+        flatten: true,
+        filter: 'isFile'
+      },
       release: {
         files: [
           { src: ["app/**"], dest: "dist/" },
@@ -181,6 +186,12 @@ module.exports = function(grunt) {
           'src/templates/**/*.hbs'
         ],
         tasks: ['handlebars']
+      },
+      assets: {
+        files: [
+          'src/assets/**'
+        ],
+        tasks: ['copy:images']
       }
     },
 
@@ -288,7 +299,7 @@ module.exports = function(grunt) {
   // Create an aliased test task.
   grunt.registerTask("test", ["karma:run"]);
 
-  grunt.registerTask("dev", ['handlebars', 'sass', 'coffee', 'concurrent:target']);
+  grunt.registerTask("dev", ['copy:images', 'handlebars', 'sass', 'coffee', 'concurrent:target']);
 
   grunt.loadNpmTasks("grunt-concurrent");
 
