@@ -4,7 +4,6 @@ require ["config"], ->
 
   # Kick off the application.
   require ["application", "routes", "handlebars", "templates"], (Application, routes) ->
-    console.warn arguments
 
     # Initialize the application on DOM ready event.
     $ ->

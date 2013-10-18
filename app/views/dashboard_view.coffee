@@ -7,3 +7,7 @@ define (require, exports, module) ->
     template: 'dashboard'
     container: 'body'
     autoRender: true
+
+    initialize: ->
+      super
+      console.warn 'sup brozeph?'

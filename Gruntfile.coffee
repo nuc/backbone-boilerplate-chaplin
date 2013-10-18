@@ -16,7 +16,7 @@ module.exports = (grunt)->
       compile:
         options:
           amd: true
-          namespace: 'templates'
+          namespace: 'app.templates'
           processName: (file)-> file.replace('templates/', '').replace('.hbs', '')
         files:
           'tmp/templates.js': 'templates/*.hbs'
@@ -46,8 +46,8 @@ module.exports = (grunt)->
 
     processhtml:
       compile:
-        files:
-          'dist/index.html': ['index.html']
+        src: 'index.html'
+        dest: 'dist/index.html'
 
 
     # Inspirational reading: https://github.com/jrburke/r.js/blob/master/build/example.build.js
@@ -94,7 +94,7 @@ module.exports = (grunt)->
 
 
     compress:
-      gzip:
+      compile:
         options:
           mode: 'gzip'
         expand: true
@@ -198,6 +198,12 @@ module.exports = (grunt)->
 
 
     watch:
+      options:
+        spawn: false
+        interrupt: true
+        dateFormat: (time) ->
+          grunt.log.writeln("Compiled in #{time}ms @ #{(new Date).toString()} 💪\n")
+
       handlebars:
         files: [
           'templates/**/*.hbs'
