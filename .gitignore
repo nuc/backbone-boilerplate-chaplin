@@ -1,7 +1,6 @@
+/.sass-cache/
 /dist/
 /node_modules/
-/vendor/bower/
 /test/coverage/
-
-/.sass-cache/
-/app/
+/tmp/
+/vendor/bower/

@@ -1,4 +1,4 @@
-![Boilerplate](https://github.com/backbone-boilerplate/backbone-boilerplate/raw/assets/header.png)
+![Boilerplate](http://maxdegterev.name/posts/backbone-boilerplate-chaplin/bbc.jpg)
 
 Chaplin Boilerplate
 ===================
