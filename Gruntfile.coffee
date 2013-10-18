@@ -54,7 +54,7 @@ module.exports = (grunt)->
     handlebars:
       compile:
         options:
-          namespace: 'app.templates'
+          amd: true
           processName: (file)-> file.replace('templates/', '').replace('.hbs', '')
         files:
           'tmp/templates.js': 'templates/*.hbs'

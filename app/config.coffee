@@ -1,21 +1,21 @@
 # This is the runtime configuration file.  It complements the Gruntfile.js by
 # supplementing shared properties.
+vendor = '../../vendor'
 require.config
   paths:
-    # Make vendor easier to access.
-    vendor: "../vendor"
-
     # Almond is used to lighten the output filesize.
-    almond: "../vendor/bower/almond/almond"
+    almond: "#{vendor}/bower/almond/almond"
 
     # Opt for Lo-Dash Underscore compatibility build over Underscore.
-    underscore: "../vendor/bower/lodash/dist/lodash.underscore"
+    underscore: "#{vendor}/bower/lodash/dist/lodash.underscore"
 
     # Map remaining vendor dependencies.
-    jquery: "../vendor/bower/jquery/jquery"
-    backbone: "../vendor/bower/backbone/backbone"
-    chaplin: "../vendor/bower/chaplin/chaplin"
-    handlebars: "../vendor/bower/handlebars/handlebars"
+    jquery: "#{vendor}/bower/jquery/jquery"
+    backbone: "#{vendor}/bower/backbone/backbone"
+    chaplin: "#{vendor}/bower/chaplin/chaplin"
+    handlebars: "#{vendor}/bower/handlebars/handlebars"
+
+    templates: "../templates"
 
   shim:
     # This is required to ensure Backbone works as expected within the AMD
@@ -28,6 +28,10 @@ require.config
     chaplin:
       deps: ["backbone"]
       exports: "Chaplin"
+
+    handlebars:
+      exports: 'Handlebars'
+
     templates:
       deps: ["handlebars"]
 
