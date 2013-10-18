@@ -225,6 +225,7 @@ module.exports = (grunt)->
 
   # Grunt contribution tasks.
   grunt.loadNpmTasks('grunt-contrib-clean')
+
   grunt.loadNpmTasks('grunt-contrib-handlebars')
   grunt.loadNpmTasks('grunt-contrib-stylus')
   grunt.loadNpmTasks('grunt-contrib-coffee')
