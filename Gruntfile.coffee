@@ -254,7 +254,7 @@ module.exports = (grunt)->
   # grunt.registerTask('test', ['karma:run'])
 
 
-  grunt.registerTask('dev', [
+  grunt.registerTask('default', [
     'clean'
 
     'handlebars'
@@ -264,7 +264,7 @@ module.exports = (grunt)->
     'concurrent'
   ])
 
-  grunt.registerTask('default', [
+  grunt.registerTask('build', [
     'clean'
 
     'handlebars'
