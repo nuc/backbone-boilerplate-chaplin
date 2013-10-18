@@ -4,57 +4,20 @@ module.exports = (grunt)->
   grunt.initConfig
     pkg: grunt.file.readJSON('package.json')
 
+
     # Wipe out previous builds and test reporting.
     clean:
       dev:
         src: 'tmp/'
       build:
-        src: ['dist/', 'test/reports', 'tmp/']
-
-
-    # This task uses James Burke's excellent r.js AMD builder to take all
-    # modules and concatenate them into a single file.
-    requirejs:
-      release:
-        options:
-          mainConfigFile: 'tmp/app/config.js'
-          generateSourceMaps: true
-          include: ['main']
-          insertRequire: ['main']
-          out: 'dist/source.min.js'
-          optimize: 'uglify2'
-
-          # Since we bootstrap with nested `require` calls this option allows
-          # R.js to find them.
-          findNestedDependencies: true
-
-          # Include a minimal AMD implementation shim.
-          name: 'almond'
-
-          # Setting the base url to the distribution directory allows the
-          # Uglify minification process to correctly map paths for Source
-          # Maps.
-          baseUrl: 'dist/app'
-
-          # Wrap everything in an IIFE.
-          wrap: true
-
-          # Do not preserve any license comments when working with source
-          # maps.  These options are incompatible.
-          preserveLicenseComments: false
-
-
-    # Minfiy the distribution CSS.
-    cssmin:
-      release:
-        files:
-          'dist/styles.min.css': ['dist/styles.css']
+        src: ['dist/', 'test/reports']
 
 
     handlebars:
       compile:
         options:
           amd: true
+          namespace: 'templates'
           processName: (file)-> file.replace('templates/', '').replace('.hbs', '')
         files:
           'tmp/templates.js': 'templates/*.hbs'
@@ -82,30 +45,26 @@ module.exports = (grunt)->
         ext: '.js'
 
 
-    server:
-      options:
-        host: '127.0.0.1'
-        port: 8000
-
-      development: {}
-
-      release:
-        options:
-          prefix: 'dist'
-
-      test:
-        options:
-          forever: false
-          port: 8001
-
-
-
     processhtml:
-      release:
+      compile:
         files:
           'dist/index.html': ['index.html']
 
 
+    # This task uses James Burke's excellent r.js AMD builder to take all
+    # modules and concatenate them into a single file.
+    requirejs:
+      compile:
+        options:
+          baseUrl: 'tmp/app'
+          mainConfigFile: 'tmp/app/config.js'
+          moduleDirs: ["tmp/app"]
+
+          out: 'tmp/application.js'
+          optimize: ''
+
+          generateSourceMaps: false
+          preserveLicenseComments: true
 
     # Move vendor and app logic during a build.
     copy:
@@ -116,19 +75,52 @@ module.exports = (grunt)->
       #   dest: 'dist/assets/images/'
       #   flatten: true
       #   filter: 'isFile'
+      assets:
+        src: 'assets/**'
+        dest: 'dist/'
+      compile:
+        src: 'vendor/**'
+        dest: 'dist/'
 
-      release:
-        files: [
-          { src: ['tmp/app/**'], dest: 'dist/' }
-          { src: ['tmp/styles/**'], dest: 'dist/' }
-          { src: ['tmp/templates/**'], dest: 'dist/' }
-          { src: 'vendor/**', dest: 'dist/' }
-        ]
 
+    uglify:
+      # options:
+        # mangle: false
+        # compress:
+        #   dead_code: true
+        # sourceMap: (file)-> file.replace(/\.js$/, '.map').replace(/\-min/, '')
+        # sourceMappingURL: (file)-> file.replace(/\.js$/, '.map').replace(/^public/, '').replace(/\-min/, '')
+
+      compile:
+        src: 'tmp/application.js'
+        dest: 'dist/application.min.js'
+
+
+    cssmin:
+      compile:
+        src: 'tmp/application.css'
+        dest: 'dist/application.min.css'
+
+
+    server:
+      options:
+        host: '127.0.0.1'
+        port: 8000
+
+      development: {}
+
+      compile:
+        options:
+          prefix: 'dist'
+
+      test:
+        options:
+          forever: false
+          port: 8001
 
 
     compress:
-      release:
+      compile:
         options:
           archive: 'dist/source.min.js.gz'
 
@@ -236,6 +228,7 @@ module.exports = (grunt)->
 
   # Grunt contribution tasks.
   grunt.loadNpmTasks('grunt-contrib-clean')
+  grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-contrib-compress')
@@ -253,23 +246,25 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-bbb-server')
   grunt.loadNpmTasks('grunt-bbb-requirejs')
   grunt.loadNpmTasks('grunt-bbb-styles')
+  grunt.loadNpmTasks('grunt-concurrent')
 
   # Create an aliased test task.
   # grunt.registerTask('test', ['karma:run'])
 
-  grunt.registerTask('dev', ['handlebars', 'stylus', 'coffee', 'concurrent:target'])
+  grunt.registerTask('dev', ['clean:dev', 'handlebars', 'stylus', 'coffee', 'concurrent:target'])
 
-  grunt.loadNpmTasks('grunt-concurrent')
-
-  # When running the default Grunt command, just lint the code.
   grunt.registerTask('default', [
-    'sass'
-    'coffee'
     'clean'
+
+    'handlebars'
+    'stylus'
+    'coffee'
+
     'processhtml'
-    'copy'
     'requirejs'
-    'styles'
+
+    'copy'
+    'uglify'
     'cssmin'
   ])
 
