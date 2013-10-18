@@ -11,6 +11,5 @@ define (require, exports, module) ->
     # Precompiled templates function initializer.
     getTemplateFunction: ->
       return unless @template
-      templates = require('templates')
-      templates["src/#{@template}.hbs"]
+      require('templates')[@template]
 

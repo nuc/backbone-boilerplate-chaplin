@@ -1,0 +1,20 @@
+/
+  app/
+  vendor/
+  styles/
+  templates/
+  assets/
+    images/
+
+  tmp/
+    app/
+    styles/
+    templates/
+
+  dist/
+    index.html
+    application.js
+    assets
+      /images
+    styles.css
+    templates.js

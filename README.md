@@ -1,4 +1,4 @@
-![Boilerplate](https://github.com/backbone-boilerplate/backbone-boilerplate/raw/assets/header.png)
+![Boilerplate](http://maxdegterev.name/posts/backbone-boilerplate-chaplin/bbc.jpg)
 
 Chaplin Boilerplate
 ===================
@@ -6,10 +6,10 @@ This is a fork of backbone-boilerplate with the addition of:
 
 - Chaplin
 - Coffeescript
-- Sass
+- Stylus
 - Handlebars
 
-You can run a dev server, with sass, handlebars and coffee compilation with:
+You can run a dev server, with stylus, handlebars and coffee compilation with:
 
 ``` bash
 grunt dev

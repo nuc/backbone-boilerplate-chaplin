@@ -4,7 +4,10 @@ define (require, exports, module) ->
   View = require 'views/base/view'
 
   module.exports = class DashboardView extends View
-    template: 'templates/dashboard'
+    template: 'dashboard'
     container: 'body'
     autoRender: true
 
+    initialize: ->
+      super
+      console.warn 'sup brozeph?'
