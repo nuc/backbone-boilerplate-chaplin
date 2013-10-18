@@ -2,6 +2,8 @@ module.exports = (grunt)->
   'use strict'
 
   grunt.initConfig
+    pkg: grunt.file.readJSON('package.json')
+
     # Wipe out previous builds and test reporting.
     clean:
       dev:
@@ -58,35 +60,17 @@ module.exports = (grunt)->
           'tmp/templates.js': 'templates/*.hbs'
 
 
-    sass:
-      options:
-        style: 'compact'
-        compass: true
-      dist:
-        expand: true
-        cwd: 'styles'
-        src: ['**/*.sass']
-        dest: 'tmp/styles/'
-        ext: '.css'
-
-    # This task simplifies working with CSS inside Backbone Boilerplate
-    # projects.  Instead of manually specifying your stylesheets inside the
-    # HTML, you can use `@imports` and this task will concatenate only those
-    # paths.
-    styles:
-      # Out the concatenated contents of the following styles into the below
-      # development file path.
-      'dist/application.css':
-        # Point this to where your `index.css` file is location.
-        src: 'tmp/styles/application.css'
-        prefix: './styles/'
-
-        # The relative path to use for the @imports.
-        paths: ['tmp/styles']
-
-        # Rewrite image paths during release to be relative to the `img`
-        # directory.
-        forceRelative: '/assets/images/'
+    stylus:
+      compile:
+        options:
+          compress: false
+          'include css': true
+          urlfunc: 'embedurl'
+          linenos: true
+          define:
+            '$version': '<%= pkg.version %>'
+        src: 'styles/application.styl'
+        dest: 'tmp/application.css'
 
 
     coffee:
@@ -125,13 +109,13 @@ module.exports = (grunt)->
 
     # Move vendor and app logic during a build.
     copy:
-      images:
-        expand: true
-        cwd: 'assets/images/'
-        src: '**'
-        dest: 'dist/assets/images/'
-        flatten: true
-        filter: 'isFile'
+      # images:
+      #   expand: true
+      #   cwd: 'assets/images/'
+      #   src: '**'
+      #   dest: 'dist/assets/images/'
+      #   flatten: true
+      #   filter: 'isFile'
 
       release:
         files: [
@@ -256,7 +240,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-contrib-compress')
   grunt.loadNpmTasks('grunt-contrib-coffee')
-  grunt.loadNpmTasks('grunt-contrib-sass')
+  grunt.loadNpmTasks('grunt-contrib-stylus')
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-handlebars')
 
@@ -273,7 +257,7 @@ module.exports = (grunt)->
   # Create an aliased test task.
   # grunt.registerTask('test', ['karma:run'])
 
-  grunt.registerTask('dev', ['copy:images', 'handlebars', 'sass', 'coffee', 'concurrent:target'])
+  grunt.registerTask('dev', ['handlebars', 'stylus', 'coffee', 'concurrent:target'])
 
   grunt.loadNpmTasks('grunt-concurrent')
 
