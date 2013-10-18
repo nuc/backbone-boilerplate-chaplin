@@ -3,7 +3,11 @@ module.exports = (grunt)->
 
   grunt.initConfig
     # Wipe out previous builds and test reporting.
-    clean: ['dist/', 'test/reports']
+    clean:
+      dev:
+        src: 'tmp/'
+      build:
+        src: ['dist/', 'test/reports', 'tmp/']
 
 
     # This task uses James Burke's excellent r.js AMD builder to take all
@@ -38,25 +42,6 @@ module.exports = (grunt)->
           preserveLicenseComments: false
 
 
-    # This task simplifies working with CSS inside Backbone Boilerplate
-    # projects.  Instead of manually specifying your stylesheets inside the
-    # HTML, you can use `@imports` and this task will concatenate only those
-    # paths.
-    styles:
-      # Out the concatenated contents of the following styles into the below
-      # development file path.
-      'dist/styles.css':
-        # Point this to where your `index.css` file is location.
-        src: 'tmp/styles/index.css'
-
-        # The relative path to use for the @imports.
-        paths: ['tmp/styles']
-
-        # Rewrite image paths during release to be relative to the `img`
-        # directory.
-        forceRelative: '/assets/images/'
-
-
     # Minfiy the distribution CSS.
     cssmin:
       release:
@@ -66,17 +51,42 @@ module.exports = (grunt)->
 
     handlebars:
       compile:
+        options:
+          namespace: 'app.templates'
+          processName: (file)-> file.replace('templates/', '').replace('.hbs', '')
         files:
           'tmp/templates.js': 'templates/*.hbs'
 
 
     sass:
+      options:
+        style: 'compact'
+        compass: true
       dist:
         expand: true
         cwd: 'styles'
         src: ['**/*.sass']
         dest: 'tmp/styles/'
         ext: '.css'
+
+    # This task simplifies working with CSS inside Backbone Boilerplate
+    # projects.  Instead of manually specifying your stylesheets inside the
+    # HTML, you can use `@imports` and this task will concatenate only those
+    # paths.
+    styles:
+      # Out the concatenated contents of the following styles into the below
+      # development file path.
+      'dist/application.css':
+        # Point this to where your `index.css` file is location.
+        src: 'tmp/styles/application.css'
+        prefix: './styles/'
+
+        # The relative path to use for the @imports.
+        paths: ['tmp/styles']
+
+        # Rewrite image paths during release to be relative to the `img`
+        # directory.
+        forceRelative: '/assets/images/'
 
 
     coffee:
@@ -233,14 +243,12 @@ module.exports = (grunt)->
     #   }
     # },
 
-    # concurrent: {
-    #   target: {
-    #       tasks: ['server', 'watch'],
-    #       options: {
-    #           logConcurrentOutput: true
-    #       }
-    #   }
-    # }
+    concurrent:
+      target:
+        tasks: ['server', 'watch']
+        options:
+            logConcurrentOutput: true
+
 
   # Grunt contribution tasks.
   grunt.loadNpmTasks('grunt-contrib-clean')
