@@ -5,8 +5,6 @@ require ["config"], ->
   # Kick off the application.
   require ["application", "routes", "handlebars", "templates"], (Application, routes) ->
 
-    # Initialize the application on DOM ready event.
-    $ ->
-      new Application
-        controllerSuffix: '_controller', pushState: true, routes: routes
+    new Application
+      controllerSuffix: '_controller', pushState: true, routes: routes
 

@@ -8,13 +8,14 @@
 
   tmp/
     app/
-    styles/
-    templates/
+    application.css
+    templates.js
 
   dist/
-    index.html
-    application.js
     assets
-      /images
-    styles.css
-    templates.js
+      images/
+    vendor/
+    index.html
+
+    application.min.js
+    application.min.css

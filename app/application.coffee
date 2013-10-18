@@ -1,8 +1,9 @@
 define (require, exports, module) ->
   'use strict'
 
-  _ = require('underscore')
   $ = require('jquery')
+  _ = require('underscore')
+
   Backbone = require('backbone')
   Chaplin = require('chaplin')
 

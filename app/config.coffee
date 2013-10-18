@@ -10,15 +10,16 @@ require.config
     # Almond is used to lighten the output filesize.
     almond: '../../vendor/bower/almond/almond'
 
+    jquery: '../../vendor/bower/jquery/jquery'
+
     # Opt for Lo-Dash Underscore compatibility build over Underscore.
     underscore: '../../vendor/bower/lodash/dist/lodash.underscore'
 
     # Map remaining vendor dependencies.
-    jquery: '../../vendor/bower/jquery/jquery'
     backbone: '../../vendor/bower/backbone/backbone'
     chaplin: '../../vendor/bower/chaplin/chaplin'
-    handlebars: '../../vendor/bower/handlebars/handlebars'
 
+    handlebars: '../../vendor/bower/handlebars/handlebars'
     templates: '../templates'
 
   shim:
@@ -35,6 +36,5 @@ require.config
 
     handlebars:
       exports: 'Handlebars'
-
     templates:
       deps: ['handlebars']
