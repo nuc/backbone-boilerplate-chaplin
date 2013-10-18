@@ -5,7 +5,6 @@ module.exports = (grunt)->
     pkg: grunt.file.readJSON('package.json')
 
 
-    # Wipe out previous builds and test reporting.
     clean:
       dev:
         src: 'tmp/'
@@ -51,20 +50,26 @@ module.exports = (grunt)->
           'dist/index.html': ['index.html']
 
 
-    # This task uses James Burke's excellent r.js AMD builder to take all
-    # modules and concatenate them into a single file.
+    # Inspirational reading: https://github.com/jrburke/r.js/blob/master/build/example.build.js
     requirejs:
       compile:
         options:
           baseUrl: 'tmp/app'
           mainConfigFile: 'tmp/app/config.js'
-          moduleDirs: ["tmp/app"]
+
+          include: ["main"]
+          insertRequire: ["main"]
+          findNestedDependencies: true
+          name: "almond"
+
+          wrap: true
 
           out: 'tmp/application.js'
-          optimize: ''
+          optimize: 'none'
 
           generateSourceMaps: false
           preserveLicenseComments: true
+          waitSeconds: 7
 
 
     copy:
@@ -167,11 +172,13 @@ module.exports = (grunt)->
     #   }
     # },
 
+
     concurrent:
       pipe:
         tasks: ['server', 'watch']
         options:
             logConcurrentOutput: true
+
 
     server:
       options:
@@ -217,7 +224,8 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-coffee')
 
   grunt.loadNpmTasks('grunt-processhtml')
-  grunt.loadNpmTasks('grunt-bbb-requirejs')
+  # grunt.loadNpmTasks("grunt-bbb-requirejs")
+  grunt.loadNpmTasks('grunt-contrib-requirejs')
 
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-contrib-uglify')
@@ -225,17 +233,19 @@ module.exports = (grunt)->
 
   grunt.loadNpmTasks('grunt-contrib-compress')
 
+
   # Third-party tasks.
   # grunt.loadNpmTasks('grunt-karma')
   # grunt.loadNpmTasks('grunt-karma-coveralls')
 
-  # Grunt BBB tasks.
+
   grunt.loadNpmTasks('grunt-concurrent')
   grunt.loadNpmTasks('grunt-bbb-server')
   grunt.loadNpmTasks('grunt-contrib-watch')
 
   # Create an aliased test task.
   # grunt.registerTask('test', ['karma:run'])
+
 
   grunt.registerTask('dev', [
     'clean'
@@ -263,4 +273,3 @@ module.exports = (grunt)->
 
     'compress'
   ])
-
