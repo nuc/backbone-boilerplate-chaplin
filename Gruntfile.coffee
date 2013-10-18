@@ -66,15 +66,8 @@ module.exports = (grunt)->
           generateSourceMaps: false
           preserveLicenseComments: true
 
-    # Move vendor and app logic during a build.
+
     copy:
-      # images:
-      #   expand: true
-      #   cwd: 'assets/images/'
-      #   src: '**'
-      #   dest: 'dist/assets/images/'
-      #   flatten: true
-      #   filter: 'isFile'
       assets:
         src: 'assets/**'
         dest: 'dist/'
@@ -84,13 +77,6 @@ module.exports = (grunt)->
 
 
     uglify:
-      # options:
-        # mangle: false
-        # compress:
-        #   dead_code: true
-        # sourceMap: (file)-> file.replace(/\.js$/, '.map').replace(/\-min/, '')
-        # sourceMappingURL: (file)-> file.replace(/\.js$/, '.map').replace(/^public/, '').replace(/\-min/, '')
-
       compile:
         src: 'tmp/application.js'
         dest: 'dist/application.min.js'
@@ -102,51 +88,13 @@ module.exports = (grunt)->
         dest: 'dist/application.min.css'
 
 
-    server:
-      options:
-        host: '127.0.0.1'
-        port: 8000
-
-      development: {}
-
-      compile:
-        options:
-          prefix: 'dist'
-
-      test:
-        options:
-          forever: false
-          port: 8001
-
-
     compress:
-      compile:
+      gzip:
         options:
-          archive: 'dist/source.min.js.gz'
-
-        files: ['dist/source.min.js']
-
-
-
-    watch:
-      sass:
-        files: [
-          'styles/**/*.sass'
-        ]
-        tasks: ['sass']
-
-      coffee:
-        files: [
-          'app/**/*.coffee'
-        ]
-        tasks: ['coffee']
-
-      handlebars:
-        files: [
-          'templates/**/*.hbs'
-        ]
-        tasks: ['handlebars']
-
+          mode: 'gzip'
+        expand: true
+        src: ['dist/*.min.*']
+        dest: './'
 
 
     # Unit testing is provided by Karma.  Change the two commented locations
@@ -220,38 +168,82 @@ module.exports = (grunt)->
     # },
 
     concurrent:
-      target:
+      pipe:
         tasks: ['server', 'watch']
         options:
             logConcurrentOutput: true
 
+    server:
+      options:
+        host: '127.0.0.1'
+        port: 8000
+
+      compile:
+        options:
+          prefix: 'dist'
+
+      test:
+        options:
+          forever: false
+          port: 8001
+
+
+    watch:
+      handlebars:
+        files: [
+          'templates/**/*.hbs'
+        ]
+        tasks: ['handlebars']
+
+      stylus:
+        files: [
+          'styles/**/*.styl'
+        ]
+        tasks: ['stylus']
+
+      coffee:
+        files: [
+          'app/**/*.coffee'
+        ]
+        tasks: ['coffee']
+
 
   # Grunt contribution tasks.
   grunt.loadNpmTasks('grunt-contrib-clean')
+  grunt.loadNpmTasks('grunt-contrib-handlebars')
+  grunt.loadNpmTasks('grunt-contrib-stylus')
+  grunt.loadNpmTasks('grunt-contrib-coffee')
+
+  grunt.loadNpmTasks('grunt-processhtml')
+  grunt.loadNpmTasks('grunt-bbb-requirejs')
+
+  grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
-  grunt.loadNpmTasks('grunt-contrib-copy')
+
   grunt.loadNpmTasks('grunt-contrib-compress')
-  grunt.loadNpmTasks('grunt-contrib-coffee')
-  grunt.loadNpmTasks('grunt-contrib-stylus')
-  grunt.loadNpmTasks('grunt-contrib-watch')
-  grunt.loadNpmTasks('grunt-contrib-handlebars')
 
   # Third-party tasks.
   # grunt.loadNpmTasks('grunt-karma')
   # grunt.loadNpmTasks('grunt-karma-coveralls')
-  grunt.loadNpmTasks('grunt-processhtml')
 
   # Grunt BBB tasks.
-  grunt.loadNpmTasks('grunt-bbb-server')
-  grunt.loadNpmTasks('grunt-bbb-requirejs')
-  grunt.loadNpmTasks('grunt-bbb-styles')
   grunt.loadNpmTasks('grunt-concurrent')
+  grunt.loadNpmTasks('grunt-bbb-server')
+  grunt.loadNpmTasks('grunt-contrib-watch')
 
   # Create an aliased test task.
   # grunt.registerTask('test', ['karma:run'])
 
-  grunt.registerTask('dev', ['clean:dev', 'handlebars', 'stylus', 'coffee', 'concurrent:target'])
+  grunt.registerTask('dev', [
+    'clean:dev'
+
+    'handlebars'
+    'stylus'
+    'coffee'
+
+    'concurrent'
+  ])
 
   grunt.registerTask('default', [
     'clean'
@@ -266,5 +258,7 @@ module.exports = (grunt)->
     'copy'
     'uglify'
     'cssmin'
+
+    'compress'
   ])
 
