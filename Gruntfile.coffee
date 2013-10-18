@@ -178,6 +178,8 @@ module.exports = (grunt)->
         host: '127.0.0.1'
         port: 8000
 
+      development: {}
+
       compile:
         options:
           prefix: 'dist'
@@ -236,7 +238,7 @@ module.exports = (grunt)->
   # grunt.registerTask('test', ['karma:run'])
 
   grunt.registerTask('dev', [
-    'clean:dev'
+    'clean'
 
     'handlebars'
     'stylus'
