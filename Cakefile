@@ -3,21 +3,20 @@
 # =======================================================================================
 logPrefix = "[Cake]:"
 
-child_process = require('child_process')
-sys = require('sys')
-
-print = sys.print
-exec = child_process.exec
-spawn = child_process.spawn
+{spawn, exec} = require 'child_process'
+{print} = require 'sys'
 
 
 # =======================================================================================
 # Utility functions
 # =======================================================================================
-log = (data)->
+log = (message) ->
+  console.log("[#{(new Date()).toUTCString()}] #{logPrefix} #{message}")
+
+proxyLog = (data)->
   print(data.toString())
 
-warn = (data)->
+proxyWarn = (data)->
   process.stderr.write(data.toString())
 
 checkVersions = (list)->
@@ -37,46 +36,46 @@ checkVersions = (list)->
           else
             console.warn("#{sty.bold sty.red 'WARN:'} #{lib} needs to be updated, current: #{current}, latest: #{latest}")
       else
-        console.warn("[#{(new Date()).toUTCString()}] #{logPrefix} Failed to fetch latest version for #{lib} with an error: #{error}")
+        log("Failed to fetch latest version for #{lib} with an error: #{error}")
     )
 
   _checkVersion(lib, version) for lib, version of list
 
 npmInstall = (callb)->
-  console.log("[#{(new Date()).toUTCString()}] #{logPrefix} Updating dependency tree")
+  log('Updating dependency tree')
 
   exec('npm install', (error, stdout, stderr) ->
     unless error
       callb?()
     else
-      console.warn("[#{(new Date()).toUTCString()}] #{logPrefix} Dependencies installation failed with an error: #{error}")
+      log("Dependencies installation failed with an error: #{error}")
   )
 
 bowerInstall = (callb)->
-  console.log("[#{(new Date()).toUTCString()}] #{logPrefix} Updating bower")
+  log('Updating bower')
 
   exec('bower install', (error, stdout, stderr) ->
     unless error
       callb?()
     else
-      console.warn("[#{(new Date()).toUTCString()}] #{logPrefix} Bower dependencies installation failed with an error: #{error}")
+      log("Bower dependencies installation failed with an error: #{error}")
   )
 
 startGrunt = ->
-  console.log("[#{(new Date()).toUTCString()}] #{logPrefix} Executing grunt")
+  log('Executing grunt')
 
   hog = exec('grunt')
-  hog.stdout.on('data', log)
-  hog.stderr.on('data', warn)
+  hog.stdout.on('data', proxyLog)
+  hog.stderr.on('data', proxyWarn)
 
 buildGrunt = (callb)->
-  console.log("[#{(new Date()).toUTCString()}] #{logPrefix} Executing grunt build")
+  log('Executing grunt build')
 
   exec('grunt build', (error, stdout, stderr) ->
     unless error
       callb?()
     else
-      console.warn("[#{(new Date()).toUTCString()}] #{logPrefix} Grunt build failed with an error: #{error}")
+      log("Grunt build failed with an error: #{error}")
   )
 
 
@@ -88,5 +87,4 @@ task 'versions', '[DEV]: Check package.json versions state', ->
   checkVersions(require('./package')[item]) for item in list
 
 task 'dev', '[DEV]: Devserver with autoreload', ->
-  npmInstall ->
-    bowerInstall startGrunt
+  npmInstall bowerInstall startGrunt
