@@ -6,10 +6,10 @@ This is a fork of backbone-boilerplate with the addition of:
 
 - Chaplin
 - Coffeescript
-- Stylus
+- Sass
 - Handlebars
 
-You can run a dev server, with stylus, handlebars and coffee compilation with:
+You can run a dev server, with sass, handlebars and coffee compilation with:
 
 ``` bash
 grunt dev
