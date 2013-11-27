@@ -1,6 +1,14 @@
-/.sass-cache/
 /dist/
 /node_modules/
 /test/coverage/
 /tmp/
 /vendor/bower/
+
+*.sublime-workspace
+*.sublime-project
+**/*.swp
+**/*.swo
+
+/public/
+
+/deployment/.rvmrc

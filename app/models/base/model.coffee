@@ -32,6 +32,10 @@ define (require, exports, module) ->
     # This will automatically make your model's foo attribute an instance of MyFooModel
     # when calling `myModelInstance.set('foo', someJson)`.
     set: (key, value, options) ->
+      return if @disposed
+
+      super key, value, options
+
       if _.isObject(key) or not key?
         attrs = key
         options = value

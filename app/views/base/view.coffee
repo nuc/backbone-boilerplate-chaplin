@@ -5,8 +5,7 @@ define (require, exports, module) ->
 
   module.exports = class View extends Chaplin.View
 
-    # listen:
-    #   'sync model': 'render'
-
     # Precompiled templates function initializer.
-    getTemplateFunction: -> require('templates')[@template] if @template
+    getTemplateFunction: ->
+      template = @template || @options.template
+      require('templates')[template] if template

@@ -2,14 +2,14 @@ define (require, exports, module) ->
   'use strict'
 
   Chaplin = require 'chaplin'
-  # Model = require 'models/base/model'
+  Model = require 'models/base/model'
 
   module.exports = class Collection extends Chaplin.Collection
     # Mixin SyncMachine
     _.extend @prototype, Chaplin.SyncMachine
 
     # Use the project base model per default, not Chaplin.Model
-    # model: Model
+    model: Model
 
     initialize: (models, @options = {}) ->
       super

@@ -3,8 +3,10 @@
 require ["config"], ->
 
   # Kick off the application.
-  require ["application", "routes", "handlebars", "templates"], (Application, routes) ->
+  require ["application", "routes", "handlebars", "templates", "handlebars-helpers", "moment", "controllers/thing_controller"], (Application, routes) ->
 
-    new Application
-      controllerSuffix: '_controller', pushState: true, routes: routes
+    # Initialize the application on DOM ready event.
+    $ ->
+      new Application
+        controllerSuffix: '_controller', pushState: true, routes: routes
 

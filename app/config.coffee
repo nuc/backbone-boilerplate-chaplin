@@ -18,8 +18,12 @@ require.config
     # Map remaining vendor dependencies.
     backbone: '../../vendor/bower/backbone/backbone'
     chaplin: '../../vendor/bower/chaplin/chaplin'
-
-    handlebars: '../../vendor/bower/handlebars/handlebars'
+    moment: '../../vendor/bower/moment/moment'
+    d3: '../../vendor/bower/d3/d3'
+    #handlebars: '../../vendor/bower/handlebars/handlebars'
+    handlebars: '../../vendor/bower/handlebars/handlebars.runtime'
+    'handlebars-helpers': '../../vendor/javascripts/handlebars-helpers'
+    'underscore.string': '../../vendor/bower/underscore.string/lib/underscore.string'
     templates: '../templates'
 
   shim:
@@ -30,11 +34,23 @@ require.config
       deps: ['jquery', 'underscore']
       # This maps the global `Backbone` object to `require('backbone')`.
       exports: 'Backbone'
+
     chaplin:
       deps: ['backbone']
       exports: 'Chaplin'
 
+    d3:
+      exports: 'd3'
+
     handlebars:
       exports: 'Handlebars'
+    'handlebars-helpers':
+      deps: ['handlebars']
+
     templates:
       deps: ['handlebars']
+    moment:
+      exports: 'moment'
+    'underscore.string':
+      deps: ['underscore']
+      exports: '_s'

@@ -22,15 +22,17 @@ module.exports = (grunt)->
           'tmp/templates.js': 'templates/*.hbs'
 
 
-    # https://coderwall.com/p/p7suww
-    # Pro tip: use Stylus.
-    compass:
+    stylus:
       compile:
         options:
-          config: 'compass.rb'
-          sassDir: 'styles/'
-          cssDir: 'tmp/'
-          outputStyle: 'nested'
+          compress: false
+          'include css': true
+          urlfunc: 'embedurl'
+          linenos: true
+          define:
+            '$version': '<%= pkg.version %>'
+        src: 'styles/application.styl'
+        dest: 'tmp/application.css'
 
 
     coffee:
@@ -60,7 +62,7 @@ module.exports = (grunt)->
           findNestedDependencies: true
           name: "almond"
 
-          wrap: true
+          wrap: false
 
           out: 'tmp/application.js'
           optimize: 'none'
@@ -208,11 +210,11 @@ module.exports = (grunt)->
         ]
         tasks: ['handlebars']
 
-      compass:
+      stylus:
         files: [
-          'styles/**/*.*'
+          'styles/**/*.styl'
         ]
-        tasks: ['compass']
+        tasks: ['stylus']
 
       coffee:
         files: [
@@ -225,7 +227,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-clean')
 
   grunt.loadNpmTasks('grunt-contrib-handlebars')
-  grunt.loadNpmTasks('grunt-contrib-compass')
+  grunt.loadNpmTasks('grunt-contrib-stylus')
   grunt.loadNpmTasks('grunt-contrib-coffee')
 
   grunt.loadNpmTasks('grunt-processhtml')
@@ -256,7 +258,7 @@ module.exports = (grunt)->
     'clean'
 
     'handlebars'
-    'compass'
+    'stylus'
     'coffee'
 
     'concurrent'
@@ -266,7 +268,7 @@ module.exports = (grunt)->
     'clean'
 
     'handlebars'
-    'compass'
+    'stylus'
     'coffee'
 
     'processhtml'
