@@ -8,4 +8,10 @@ define (require, exports, module) ->
     # Precompiled templates function initializer.
     getTemplateFunction: ->
       template = @template || @options.template
-      require('templates')[template] if template
+
+      if template
+        if _.isEmpty window.Handlebars.templates
+          # Direct require call throw errors when running tests.
+          require.call(require, 'templates')[template]
+        else
+          window.Handlebars.templates[template]
