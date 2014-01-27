@@ -19,7 +19,6 @@
     "grunt-contrib-requirejs": "~0.4.1",
 
     "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-uglify": "~0.2.4",
     "grunt-contrib-cssmin": "~0.6.2",
 
     "grunt-contrib-compress": "~0.5.2",
@@ -33,7 +32,8 @@
     "karma-mocha": "~0.1.0",
     "karma-qunit": "~0.1.1",
     "karma-phantomjs-launcher": "~0.1.0",
-    "karma-coverage": "~0.1.0"
+    "karma-handlebars-preprocessor": "~0.1.2",
+    "karma-coverage": "git+https://github.com/kylewelsby/karma-coverage#fix-coffee-script-compiler"
   },
   "peerDependencies": {
     "generator-bbb": "*",

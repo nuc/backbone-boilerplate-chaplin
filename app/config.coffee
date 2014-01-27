@@ -8,23 +8,22 @@
 require.config
   paths:
     # Almond is used to lighten the output filesize.
-    almond: '../../vendor/bower/almond/almond'
+    almond: '../vendor/bower/almond/almond'
 
-    jquery: '../../vendor/bower/jquery/jquery'
+    jquery: '../vendor/bower/jquery/jquery'
 
     # Opt for Lo-Dash Underscore compatibility build over Underscore.
-    underscore: '../../vendor/bower/lodash/dist/lodash.underscore'
+    underscore: '../vendor/bower/lodash/dist/lodash.underscore'
 
     # Map remaining vendor dependencies.
-    backbone: '../../vendor/bower/backbone/backbone'
-    chaplin: '../../vendor/bower/chaplin/chaplin'
-    moment: '../../vendor/bower/moment/moment'
-    d3: '../../vendor/bower/d3/d3'
-    #handlebars: '../../vendor/bower/handlebars/handlebars'
-    handlebars: '../../vendor/bower/handlebars/handlebars.runtime'
-    'handlebars-helpers': '../../vendor/javascripts/handlebars-helpers'
-    'underscore.string': '../../vendor/bower/underscore.string/lib/underscore.string'
-    templates: '../templates'
+    backbone: '../vendor/bower/backbone/backbone'
+    chaplin: '../vendor/bower/chaplin/chaplin'
+    moment: '../vendor/bower/moment/moment'
+    d3: '../vendor/bower/d3/d3'
+    #handlebars: '../vendor/bower/handlebars/handlebars'
+    handlebars: '../vendor/bower/handlebars/handlebars.runtime'
+    'handlebars-helpers': '../vendor/javascripts/handlebars-helpers'
+    'underscore.string': '../vendor/bower/underscore.string/lib/underscore.string'
 
   shim:
     # This is required to ensure Backbone works as expected within the AMD

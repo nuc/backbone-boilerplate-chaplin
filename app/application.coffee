@@ -1,7 +1,7 @@
 define (require, exports, module) ->
   'use strict'
 
-  document.domain = "moviepilot.com"
+  # document.domain = "moviepilot.com"
 
   $ = require('jquery')
   _ = require('underscore')

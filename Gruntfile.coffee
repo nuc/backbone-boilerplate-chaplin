@@ -40,7 +40,7 @@ module.exports = (grunt)->
         expand: true
         cwd: 'app/'
         src: ['*.coffee', '**/*.coffee']
-        dest: 'tmp/app/'
+        dest: 'tmp/'
         ext: '.js'
 
 
@@ -54,37 +54,47 @@ module.exports = (grunt)->
     requirejs:
       compile:
         options:
-          baseUrl: 'tmp/app'
-          mainConfigFile: 'tmp/app/config.js'
+          baseUrl: 'dist/tmp'
+          mainConfigFile: 'tmp/config.js'
 
           include: ["main"]
-          insertRequire: ["main"]
           findNestedDependencies: true
           name: "almond"
 
+          # Handlebars templates won't load correctly with this enabled.
           wrap: false
 
-          out: 'tmp/application.js'
-          optimize: 'none'
+          out: 'dist/application.min.js'
+          optimize: 'uglify2'
 
-          generateSourceMaps: false
-          preserveLicenseComments: true
+          generateSourceMaps: true
+          # Do not preserve any license comments when working with source
+          # maps.  These options are incompatible.
+          preserveLicenseComments: false
           waitSeconds: 7
 
 
     copy:
       assets:
         src: 'assets/**'
-        dest: 'dist/'
+        dest: 'tmp/'
       compile:
-        src: 'vendor/**'
-        dest: 'dist/'
-
-
-    uglify:
-      compile:
-        src: 'tmp/application.js'
-        dest: 'dist/application.min.js'
+        files: [
+          expand: true
+          # This should only exclude the application.css.
+          # There shouldn't be any other CSS files within tmp/.
+          src: ['tmp/**/*.!(css)']
+          dest: 'dist/'
+          rename: (dest, src) ->
+            # Make assets sibling to index.html as well as app JS+CSS.
+            if src.indexOf('tmp/assets') is 0
+              dest + src.slice 3
+            else
+              dest + src
+        ,
+          src: ['vendor/**']
+          dest: 'dist/'
+        ]
 
 
     cssmin:
@@ -104,73 +114,75 @@ module.exports = (grunt)->
 
     # Unit testing is provided by Karma.  Change the two commented locations
     # below to either: mocha, jasmine, or qunit.
-    # karma: {
-    #   options: {
-    #     basePath: process.cwd(),
-    #     singleRun: true,
-    #     captureTimeout: 7000,
-    #     autoWatch: true,
+    karma: {
+      options: {
+        basePath: process.cwd()
+        singleRun: true
+        captureTimeout: 7000
+        autoWatch: true
 
-    #     reporters: ['progress', 'coverage'],
-    #     browsers: ['PhantomJS'],
+        reporters: ['progress', 'coverage']
+        browsers: ['PhantomJS']
 
-    #     # Change this to the framework you want to use.
-    #     frameworks: ['mocha'],
+        # Change this to the framework you want to use.
+        frameworks: ['mocha']
 
-    #     plugins: [
-    #       'karma-jasmine',
-    #       'karma-mocha',
-    #       'karma-qunit',
-    #       'karma-phantomjs-launcher',
-    #       'karma-coverage'
-    #     ],
+        preprocessors: {
+          'app/**/*.coffee': ['coverage']
+          'test/**/*.spec.coffee': ['coffee']
+          'templates/**/*.hbs': ['handlebars']
+        }
 
-    #     preprocessors: {
-    #       'app/**/*.js': 'coverage'
-    #     },
+        handlebarsPreprocessor: {
+          templates: 'window.Handlebars.templates'
+        }
 
-    #     coverageReporter: {
-    #       type: 'lcov',
-    #       dir: 'test/coverage'
-    #     },
+        coverageReporter: {
+          type: 'lcov',
+          dir: 'test/coverage'
+        }
 
-    #     files: [
-    #       # You can optionally remove this or swap out for a different expect.
-    #       'vendor/bower/chai/chai.js',
-    #       'vendor/bower/requirejs/require.js',
-    #       'test/runner.js',
+        files: [
+          # You can optionally remove this or swap out for a different expect.
+          'vendor/bower/chai/chai.js'
+          'vendor/bower/requirejs/require.js'
 
-    #       { pattern: 'app/**/*.*', included: false },
-    #       # Derives test framework from Karma configuration.
-    #       {
-    #         pattern: 'test/<%= karma.options.frameworks[0] %>/**/*.spec.js',
-    #         included: false
-    #       },
-    #       { pattern: 'vendor/**/*.js', included: false }
-    #     ]
-    #   },
+          'vendor/bower/handlebars/handlebars.runtime.js'
+          'templates/**/*.hbs'
 
-    #   # This creates a server that will automatically run your tests when you
-    #   # save a file and display results in the terminal.
-    #   daemon: {
-    #     options: {
-    #       singleRun: false
-    #     }
-    #   },
+          'test/runner.js'
 
-    #   # This is useful for running the tests just once.
-    #   run: {
-    #     options: {
-    #       singleRun: true
-    #     }
-    #   }
-    # },
+          { pattern: 'app/**/*.*', included: false }
+          # Derives test framework from Karma configuration.
+          {
+            pattern: 'test/<%= karma.options.frameworks[0] %>/**/*.spec.*'
+            included: false
+          }
+          { pattern: 'vendor/**/*.js', included: false }
+        ]
+      }
 
-    # coveralls: {
-    #   options: {
-    #     coverage_dir: 'test/coverage/PhantomJS 1.9.2 (Linux)/'
-    #   }
-    # },
+      # This creates a server that will automatically run your tests when you
+      # save a file and display results in the terminal.
+      daemon: {
+        options: {
+          singleRun: false
+        }
+      }
+
+      # This is useful for running the tests just once.
+      run: {
+        options: {
+          singleRun: true
+        }
+      }
+    }
+
+    coveralls: {
+      options: {
+        coverage_dir: 'test/coverage/PhantomJS 1.9.2 (Linux)/'
+      }
+    }
 
 
     concurrent:
@@ -235,15 +247,14 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-requirejs')
 
   grunt.loadNpmTasks('grunt-contrib-copy')
-  grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
 
   grunt.loadNpmTasks('grunt-contrib-compress')
 
 
   # Third-party tasks.
-  # grunt.loadNpmTasks('grunt-karma')
-  # grunt.loadNpmTasks('grunt-karma-coveralls')
+  grunt.loadNpmTasks('grunt-karma')
+  grunt.loadNpmTasks('grunt-karma-coveralls')
 
 
   grunt.loadNpmTasks('grunt-concurrent')
@@ -251,7 +262,7 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-watch')
 
   # Create an aliased test task.
-  # grunt.registerTask('test', ['karma:run'])
+  grunt.registerTask('test', ['karma:run'])
 
 
   grunt.registerTask('default', [
@@ -261,6 +272,7 @@ module.exports = (grunt)->
     'stylus'
     'coffee'
 
+    'copy:assets'
     'concurrent'
   ])
 
@@ -272,11 +284,9 @@ module.exports = (grunt)->
     'coffee'
 
     'processhtml'
+    'copy'
     'requirejs'
 
-    'copy'
-    'uglify'
     'cssmin'
-
     'compress'
   ])
