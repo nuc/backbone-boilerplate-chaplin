@@ -9,7 +9,14 @@ This is a fork of backbone-boilerplate with the addition of:
 - Stylus
 - Handlebars
 
-You can run a dev server, with stylus, handlebars and coffee compilation with:
+First install all dependencies with:
+
+``` bash
+npm install
+bower install
+```
+
+and then can run a dev server, with stylus, handlebars and coffee compilation with:
 
 ``` bash
 grunt
